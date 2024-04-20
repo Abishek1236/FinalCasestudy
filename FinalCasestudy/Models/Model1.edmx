@@ -1,0 +1,422 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="clinicModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admins">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="int" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Appointments">
+          <Key>
+            <PropertyRef Name="AppointmentId" />
+          </Key>
+          <Property Name="AppointmentId" Type="int" Nullable="false" />
+          <Property Name="PatientId" Type="int" />
+          <Property Name="DoctorId" Type="int" />
+          <Property Name="AppointmentDateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Bills">
+          <Key>
+            <PropertyRef Name="BillId" />
+          </Key>
+          <Property Name="BillId" Type="int" Nullable="false" />
+          <Property Name="PatientId" Type="int" />
+          <Property Name="TreatmentId" Type="int" />
+          <Property Name="BillAmount" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="DoctorDetails">
+          <Key>
+            <PropertyRef Name="DoctorId" />
+          </Key>
+          <Property Name="DoctorId" Type="int" Nullable="false" />
+          <Property Name="DoctorName" Type="varchar" MaxLength="50" />
+          <Property Name="Specialty" Type="varchar" MaxLength="50" />
+          <Property Name="DoctorTiming" Type="datetime" />
+        </EntityType>
+        <EntityType Name="PatientDetails">
+          <Key>
+            <PropertyRef Name="PatientId" />
+          </Key>
+          <Property Name="PatientId" Type="int" Nullable="false" />
+          <Property Name="PatientName" Type="varchar" MaxLength="50" />
+          <Property Name="ContactNumber" Type="varchar" MaxLength="15" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="RequestId">
+          <Key>
+            <PropertyRef Name="RequestId" />
+          </Key>
+          <Property Name="RequestId" Type="int" Nullable="false" />
+          <Property Name="PatientName" Type="varchar" MaxLength="100" />
+          <Property Name="DoctorId" Type="int" />
+        </EntityType>
+        <EntityType Name="TreatmentDetails">
+          <Key>
+            <PropertyRef Name="TreatmentId" />
+          </Key>
+          <Property Name="TreatmentId" Type="int" Nullable="false" />
+          <Property Name="TreatmentName" Type="varchar" MaxLength="50" />
+          <Property Name="TreatmentDescription" Type="varchar" MaxLength="255" />
+          <Property Name="TreatmentCharge" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <Association Name="FK__Appointme__Docto__6B24EA82">
+          <End Role="DoctorDetails" Type="Self.DoctorDetails" Multiplicity="0..1" />
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DoctorDetails">
+              <PropertyRef Name="DoctorId" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Appointme__Patie__6A30C649">
+          <End Role="PatientDetails" Type="Self.PatientDetails" Multiplicity="0..1" />
+          <End Role="Appointments" Type="Self.Appointments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PatientDetails">
+              <PropertyRef Name="PatientId" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="PatientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Bills__PatientId__6E01572D">
+          <End Role="PatientDetails" Type="Self.PatientDetails" Multiplicity="0..1" />
+          <End Role="Bills" Type="Self.Bills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PatientDetails">
+              <PropertyRef Name="PatientId" />
+            </Principal>
+            <Dependent Role="Bills">
+              <PropertyRef Name="PatientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Bills__Treatment__6EF57B66">
+          <End Role="TreatmentDetails" Type="Self.TreatmentDetails" Multiplicity="0..1" />
+          <End Role="Bills" Type="Self.Bills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TreatmentDetails">
+              <PropertyRef Name="TreatmentId" />
+            </Principal>
+            <Dependent Role="Bills">
+              <PropertyRef Name="TreatmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RequestId__Docto__02FC7413">
+          <End Role="DoctorDetails" Type="Self.DoctorDetails" Multiplicity="0..1" />
+          <End Role="RequestId" Type="Self.RequestId" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DoctorDetails">
+              <PropertyRef Name="DoctorId" />
+            </Principal>
+            <Dependent Role="RequestId">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="clinicModelStoreContainer">
+          <EntitySet Name="Admins" EntityType="Self.Admins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Appointments" EntityType="Self.Appointments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bills" EntityType="Self.Bills" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DoctorDetails" EntityType="Self.DoctorDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PatientDetails" EntityType="Self.PatientDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RequestId" EntityType="Self.RequestId" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TreatmentDetails" EntityType="Self.TreatmentDetails" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Appointme__Docto__6B24EA82" Association="Self.FK__Appointme__Docto__6B24EA82">
+            <End Role="DoctorDetails" EntitySet="DoctorDetails" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Appointme__Patie__6A30C649" Association="Self.FK__Appointme__Patie__6A30C649">
+            <End Role="PatientDetails" EntitySet="PatientDetails" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Bills__PatientId__6E01572D" Association="Self.FK__Bills__PatientId__6E01572D">
+            <End Role="PatientDetails" EntitySet="PatientDetails" />
+            <End Role="Bills" EntitySet="Bills" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Bills__Treatment__6EF57B66" Association="Self.FK__Bills__Treatment__6EF57B66">
+            <End Role="TreatmentDetails" EntitySet="TreatmentDetails" />
+            <End Role="Bills" EntitySet="Bills" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RequestId__Docto__02FC7413" Association="Self.FK__RequestId__Docto__02FC7413">
+            <End Role="DoctorDetails" EntitySet="DoctorDetails" />
+            <End Role="RequestId" EntitySet="RequestId" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="clinicModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="Int32" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Appointment">
+          <Key>
+            <PropertyRef Name="AppointmentId" />
+          </Key>
+          <Property Name="AppointmentId" Type="Int32" Nullable="false" />
+          <Property Name="PatientId" Type="Int32" />
+          <Property Name="DoctorId" Type="Int32" />
+          <Property Name="AppointmentDateTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="DoctorDetail" Relationship="Self.FK__Appointme__Docto__6B24EA82" FromRole="Appointments" ToRole="DoctorDetails" />
+          <NavigationProperty Name="PatientDetail" Relationship="Self.FK__Appointme__Patie__6A30C649" FromRole="Appointments" ToRole="PatientDetails" />
+        </EntityType>
+        <EntityType Name="Bill">
+          <Key>
+            <PropertyRef Name="BillId" />
+          </Key>
+          <Property Name="BillId" Type="Int32" Nullable="false" />
+          <Property Name="PatientId" Type="Int32" />
+          <Property Name="TreatmentId" Type="Int32" />
+          <Property Name="BillAmount" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="PatientDetail" Relationship="Self.FK__Bills__PatientId__6E01572D" FromRole="Bills" ToRole="PatientDetails" />
+          <NavigationProperty Name="TreatmentDetail" Relationship="Self.FK__Bills__Treatment__6EF57B66" FromRole="Bills" ToRole="TreatmentDetails" />
+        </EntityType>
+        <EntityType Name="DoctorDetail">
+          <Key>
+            <PropertyRef Name="DoctorId" />
+          </Key>
+          <Property Name="DoctorId" Type="Int32" Nullable="false" />
+          <Property Name="DoctorName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Specialty" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DoctorTiming" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK__Appointme__Docto__6B24EA82" FromRole="DoctorDetails" ToRole="Appointments" />
+          <NavigationProperty Name="RequestIds" Relationship="clinicModel.FK__RequestId__Docto__02FC7413" FromRole="DoctorDetail" ToRole="RequestId" />
+        </EntityType>
+        <EntityType Name="PatientDetail">
+          <Key>
+            <PropertyRef Name="PatientId" />
+          </Key>
+          <Property Name="PatientId" Type="Int32" Nullable="false" />
+          <Property Name="PatientName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ContactNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK__Appointme__Patie__6A30C649" FromRole="PatientDetails" ToRole="Appointments" />
+          <NavigationProperty Name="Bills" Relationship="Self.FK__Bills__PatientId__6E01572D" FromRole="PatientDetails" ToRole="Bills" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TreatmentDetail">
+          <Key>
+            <PropertyRef Name="TreatmentId" />
+          </Key>
+          <Property Name="TreatmentId" Type="Int32" Nullable="false" />
+          <Property Name="TreatmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TreatmentDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TreatmentCharge" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="Bills" Relationship="Self.FK__Bills__Treatment__6EF57B66" FromRole="TreatmentDetails" ToRole="Bills" />
+        </EntityType>
+        <Association Name="FK__Appointme__Docto__6B24EA82">
+          <End Role="DoctorDetails" Type="Self.DoctorDetail" Multiplicity="0..1" />
+          <End Role="Appointments" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DoctorDetails">
+              <PropertyRef Name="DoctorId" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Appointme__Patie__6A30C649">
+          <End Role="PatientDetails" Type="Self.PatientDetail" Multiplicity="0..1" />
+          <End Role="Appointments" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PatientDetails">
+              <PropertyRef Name="PatientId" />
+            </Principal>
+            <Dependent Role="Appointments">
+              <PropertyRef Name="PatientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Bills__PatientId__6E01572D">
+          <End Role="PatientDetails" Type="Self.PatientDetail" Multiplicity="0..1" />
+          <End Role="Bills" Type="Self.Bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PatientDetails">
+              <PropertyRef Name="PatientId" />
+            </Principal>
+            <Dependent Role="Bills">
+              <PropertyRef Name="PatientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Bills__Treatment__6EF57B66">
+          <End Role="TreatmentDetails" Type="Self.TreatmentDetail" Multiplicity="0..1" />
+          <End Role="Bills" Type="Self.Bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TreatmentDetails">
+              <PropertyRef Name="TreatmentId" />
+            </Principal>
+            <Dependent Role="Bills">
+              <PropertyRef Name="TreatmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="clinicEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admins" EntityType="Self.Admin" />
+          <EntitySet Name="Appointments" EntityType="Self.Appointment" />
+          <EntitySet Name="Bills" EntityType="Self.Bill" />
+          <EntitySet Name="DoctorDetails" EntityType="Self.DoctorDetail" />
+          <EntitySet Name="PatientDetails" EntityType="Self.PatientDetail" />
+          <EntitySet Name="TreatmentDetails" EntityType="Self.TreatmentDetail" />
+          <AssociationSet Name="FK__Appointme__Docto__6B24EA82" Association="Self.FK__Appointme__Docto__6B24EA82">
+            <End Role="DoctorDetails" EntitySet="DoctorDetails" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Appointme__Patie__6A30C649" Association="Self.FK__Appointme__Patie__6A30C649">
+            <End Role="PatientDetails" EntitySet="PatientDetails" />
+            <End Role="Appointments" EntitySet="Appointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Bills__PatientId__6E01572D" Association="Self.FK__Bills__PatientId__6E01572D">
+            <End Role="PatientDetails" EntitySet="PatientDetails" />
+            <End Role="Bills" EntitySet="Bills" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Bills__Treatment__6EF57B66" Association="Self.FK__Bills__Treatment__6EF57B66">
+            <End Role="TreatmentDetails" EntitySet="TreatmentDetails" />
+            <End Role="Bills" EntitySet="Bills" />
+          </AssociationSet>
+          <EntitySet Name="RequestIds" EntityType="clinicModel.RequestId" />
+          <AssociationSet Name="FK__RequestId__Docto__02FC7413" Association="clinicModel.FK__RequestId__Docto__02FC7413">
+            <End Role="DoctorDetail" EntitySet="DoctorDetails" />
+            <End Role="RequestId" EntitySet="RequestIds" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="RequestId">
+          <Key>
+            <PropertyRef Name="RequestId1" />
+          </Key>
+          <Property Name="RequestId1" Type="Int32" Nullable="false" />
+          <Property Name="PatientName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DoctorId" Type="Int32" />
+          <NavigationProperty Name="DoctorDetail" Relationship="clinicModel.FK__RequestId__Docto__02FC7413" FromRole="RequestId" ToRole="DoctorDetail" />
+        </EntityType>
+        <Association Name="FK__RequestId__Docto__02FC7413">
+          <End Type="clinicModel.DoctorDetail" Role="DoctorDetail" Multiplicity="0..1" />
+          <End Type="clinicModel.RequestId" Role="RequestId" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DoctorDetail">
+              <PropertyRef Name="DoctorId" />
+            </Principal>
+            <Dependent Role="RequestId">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="clinicModelStoreContainer" CdmEntityContainer="clinicEntities">
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="clinicModel.Admin">
+              <MappingFragment StoreEntitySet="Admins">
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Appointments">
+            <EntityTypeMapping TypeName="clinicModel.Appointment">
+              <MappingFragment StoreEntitySet="Appointments">
+                <ScalarProperty Name="AppointmentId" ColumnName="AppointmentId" />
+                <ScalarProperty Name="PatientId" ColumnName="PatientId" />
+                <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
+                <ScalarProperty Name="AppointmentDateTime" ColumnName="AppointmentDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bills">
+            <EntityTypeMapping TypeName="clinicModel.Bill">
+              <MappingFragment StoreEntitySet="Bills">
+                <ScalarProperty Name="BillId" ColumnName="BillId" />
+                <ScalarProperty Name="PatientId" ColumnName="PatientId" />
+                <ScalarProperty Name="TreatmentId" ColumnName="TreatmentId" />
+                <ScalarProperty Name="BillAmount" ColumnName="BillAmount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DoctorDetails">
+            <EntityTypeMapping TypeName="clinicModel.DoctorDetail">
+              <MappingFragment StoreEntitySet="DoctorDetails">
+                <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
+                <ScalarProperty Name="DoctorName" ColumnName="DoctorName" />
+                <ScalarProperty Name="Specialty" ColumnName="Specialty" />
+                <ScalarProperty Name="DoctorTiming" ColumnName="DoctorTiming" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PatientDetails">
+            <EntityTypeMapping TypeName="clinicModel.PatientDetail">
+              <MappingFragment StoreEntitySet="PatientDetails">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="PatientId" ColumnName="PatientId" />
+                <ScalarProperty Name="PatientName" ColumnName="PatientName" />
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TreatmentDetails">
+            <EntityTypeMapping TypeName="clinicModel.TreatmentDetail">
+              <MappingFragment StoreEntitySet="TreatmentDetails">
+                <ScalarProperty Name="TreatmentId" ColumnName="TreatmentId" />
+                <ScalarProperty Name="TreatmentName" ColumnName="TreatmentName" />
+                <ScalarProperty Name="TreatmentDescription" ColumnName="TreatmentDescription" />
+                <ScalarProperty Name="TreatmentCharge" ColumnName="TreatmentCharge" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequestIds">
+            <EntityTypeMapping TypeName="clinicModel.RequestId">
+              <MappingFragment StoreEntitySet="RequestId">
+                <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
+                <ScalarProperty Name="PatientName" ColumnName="PatientName" />
+                <ScalarProperty Name="RequestId1" ColumnName="RequestId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

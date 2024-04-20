@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7a6fee8398764936810acc42b717739e" Name="Diagram1">
+        <EntityTypeShape EntityType="clinicModel.Admin" Width="1.5" PointX="5.75" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="clinicModel.Appointment" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="clinicModel.Bill" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="clinicModel.DoctorDetail" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="clinicModel.PatientDetail" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="clinicModel.TreatmentDetail" Width="1.5" PointX="0.75" PointY="7.625" IsExpanded="true" />
+        <AssociationConnector Association="clinicModel.FK__Appointme__Docto__6B24EA82" ManuallyRouted="false" />
+        <AssociationConnector Association="clinicModel.FK__Appointme__Patie__6A30C649" ManuallyRouted="false" />
+        <AssociationConnector Association="clinicModel.FK__Bills__PatientId__6E01572D" ManuallyRouted="false" />
+        <AssociationConnector Association="clinicModel.FK__Bills__Treatment__6EF57B66" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="clinicModel.RequestId" Width="1.5" PointX="3" PointY="7.125" />
+        <AssociationConnector Association="clinicModel.FK__RequestId__Docto__02FC7413" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

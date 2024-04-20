@@ -1,0 +1,53 @@
+﻿@model IEnumerable<FinalCasestudy.Models.RequestId>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PatientName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DoctorDetail.DoctorName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DoctorDetail.Specialty)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DoctorDetail.DoctorTiming)
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PatientName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DoctorDetail.DoctorName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DoctorDetail.Specialty)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DoctorDetail.DoctorTiming)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.RequestId1 }) |
+            @Html.ActionLink("Details", "Details", new { id = item.RequestId1 }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.RequestId1 })
+        </td>
+    </tr>
+}
+
+</table>
